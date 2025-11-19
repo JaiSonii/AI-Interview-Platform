@@ -1,0 +1,42 @@
+// This tells Prisma to generate JavaScript client code
+generator client {
+  provider = "prisma-client-js"
+}
+
+// This tells Prisma we are using Postgres
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ENUMS help strictly define roles
+enum Role {
+  ORG_ADMIN
+  RECRUITER
+}
+
+// TABLE 1: ORGANIZATION (The Tenant)
+model Organization {
+  id            String   @id @default(uuid()) // Auto-generate UUID
+  name          String
+  domain        String?  // Optional: for auto-joining
+  createdAt     DateTime @default(now())
+  
+  // Relation: An Org has many Users
+  users         User[]
+}
+
+// TABLE 2: USERS (The Staff)
+model User {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  password_hash String
+  role          Role     @default(RECRUITER)
+  createdAt     DateTime @default(now())
+  
+  // Relation: A User belongs to an Org
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+
+  @@index([email]) // Speeds up login lookups
+}

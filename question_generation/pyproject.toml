@@ -9,4 +9,7 @@ dependencies = [
     "fastapi>=0.122.0",
     "langchain>=1.1.0",
     "langchain-openai>=1.1.0",
+    "loguru>=0.7.3",
+    "psycopg2-binary>=2.9.9",
+    "redis>=7.1.0",
 ]

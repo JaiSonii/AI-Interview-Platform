@@ -2,8 +2,8 @@
 Code for testing the model ouput and functionality of base question generator module
 """
 
-from ..app.core.base_question_generator import QuestionGenerator
-from ..app.core.types import ExpRange
+from ..app.services.question_generator import QuestionGenerator
+from ..app.services.helpers.types import ExpRange
 
 if __name__ == "__main__":
     qg = QuestionGenerator('gpt-4.1-mini')

@@ -1,6 +1,4 @@
-def main():
-    print("Hello from question-generation!")
-
+from worker import process_jobs
 
 if __name__ == "__main__":
-    main()
+    process_jobs()

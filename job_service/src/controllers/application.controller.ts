@@ -5,13 +5,13 @@ const prisma = new PrismaClient();
 
 export const getApplication = async (req: Request, res: Response) => {
     try {
-        const inviteToken = req.params.inviteToken;
-        if (!inviteToken) {
+        const applicationId = req.params.applicationId;
+        if (!applicationId) {
             res.status(400).json({ error: "Application ID is required" });
             return;
         }
         const application = await prisma.application.findFirst({
-            where: { inviteToken: inviteToken },
+            where: { id: applicationId },
             include: {
                 job: true
             }

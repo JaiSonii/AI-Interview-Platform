@@ -4,6 +4,8 @@ from .models import ResumeQuestionsOutput, JobInfo, CandidateInfo
 from .prompt import INTERVIEW_FLOW_PROMPT
 from ..base_generator import BaseGenerator
 
+from app.config import settings
+
 
 class InterviewFlow(BaseGenerator):
     def __init__(self, model="gpt-4o") -> None:
@@ -19,18 +21,18 @@ class InterviewFlow(BaseGenerator):
         if not candidate_info:
             raise ValueError(f"Candidate Info not provided")
         
-        max_intro_questions: int = kwargs.get('max_interview_ques', 1)
-        max_proj_and_exp_ques: int = kwargs.get('max_proj_and_interview_ques', 5)
+        max_intro_questions: int = settings.MAX_INTRO_QUESTIONS
+        max_proj_and_exp_ques: int = settings.MAX_PROJ_AND_INTERVIEW_QUESTIONS
 
         system_prompt_inp = {
-            "role" : job_info.get('role'),
+            "role" : job_info.get('title'),
             "candidate_name" : candidate_info.get('name'),
             "max_intro_questions" : max_intro_questions,
             "max_project_and_exp_ques" : max_proj_and_exp_ques
         }
         messages: list[BaseMessage] =  [
-            SystemMessage(INTERVIEW_FLOW_PROMPT.format(system_prompt_inp)),
-            HumanMessage("Generate the interview flow")
+            SystemMessage(content=INTERVIEW_FLOW_PROMPT.format(**system_prompt_inp)),
+            HumanMessage(content=f"Generate the interview flow, \nResume Data: \n{str(candidate_info)}")
         ]
 
         return await self._model.ainvoke(messages)

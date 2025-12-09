@@ -1,5 +1,9 @@
+import uvicorn
+from app.main import create_app
+
 def main():
-    print("Hello from interview-flow-service!")
+    app = create_app()
+    uvicorn.run(app, host="127.0.0.1", port=4004)
 
 
 if __name__ == "__main__":

@@ -4,6 +4,7 @@ from langchain_core.runnables import Runnable
 from langchain_openai.chat_models.base import _DictOrPydanticClass
 from pydantic import SecretStr
 import os
+from app.config import settings
 
 class BaseGenerator(ABC):
     """
@@ -22,7 +23,7 @@ class BaseGenerator(ABC):
         Returns:
             an instance of a Runnable from Langchain OpenAI
         """
-        api_key = os.getenv('OPENAI_API_KEY', None)
+        api_key = settings.OPENAI_API_KEY
         if api_key is None:
             raise ValueError("OPENAI API Key not provided")
         

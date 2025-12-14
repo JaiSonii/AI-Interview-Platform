@@ -1,4 +1,4 @@
-from ..base_generator import BaseGenerator
+from ..base_ai import BaseAI
 from .models import StructuredResume
 import pypdfium2 as pdf_parser
 
@@ -16,7 +16,7 @@ Resume text :
 {resume_text}
 """
 
-class ResumeParser(BaseGenerator):
+class ResumeParser(BaseAI):
     """
     This module is specifically responsible for creating structured resumes.
     It is recommended to use a light weight fast model for this process

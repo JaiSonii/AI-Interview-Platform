@@ -48,13 +48,10 @@ model User {
 
 model Job {
   id             String       @id @default(uuid())
-  title          String
+  role          String
   description    String
+  exp_range      Json
   status         JobStatus    @default(DRAFT)
-  
-  // The "Brain" of the AI (Stored as JSON)
-  // Example: { "strictness": "high", "tech_stack": ["React", "Node"] }
-  ai_settings    Json
 
   roadmap        Json?
   
@@ -81,6 +78,7 @@ model Application {
   jobId           String
   job             Job      @relation(fields: [jobId], references: [id])
   
+  flow            Json?
   // Status Tracking
   status          String   @default("INVITED") // INVITED, IN_PROGRESS, COMPLETED
   score           Int?     // Nullable until interview is done

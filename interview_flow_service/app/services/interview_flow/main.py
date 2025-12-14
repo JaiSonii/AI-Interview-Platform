@@ -2,12 +2,12 @@ from langchain_core.messages import HumanMessage, SystemMessage, BaseMessage
 
 from .models import ResumeQuestionsOutput, JobInfo, CandidateInfo
 from .prompt import INTERVIEW_FLOW_PROMPT
-from ..base_generator import BaseGenerator
+from ..base_ai import BaseAI
 
 from app.config import settings
 
 
-class InterviewFlow(BaseGenerator):
+class InterviewFlow(BaseAI):
     def __init__(self, model="gpt-4o") -> None:
         super().__init__(model, ResumeQuestionsOutput)
 

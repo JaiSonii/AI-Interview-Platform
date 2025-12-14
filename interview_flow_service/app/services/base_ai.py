@@ -6,7 +6,7 @@ from pydantic import SecretStr
 import os
 from app.config import settings
 
-class BaseGenerator(ABC):
+class BaseAI(ABC):
     """
     This is the base class, which provides a blue print for rest of the AI based classes
     """

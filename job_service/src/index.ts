@@ -1,11 +1,14 @@
 import express from "express";
 import cors from "cors";
 import jobRouter from './routes/job.routes'
+import { initRabbitMQ } from "./services/rabbitmq";
 import applicationRouter from './routes/application.routes'
 
 
 const app = express();
 const PORT = process.env.PORT || 4001;
+
+initRabbitMQ()
 
 app.use(cors());
 app.use(express.json());

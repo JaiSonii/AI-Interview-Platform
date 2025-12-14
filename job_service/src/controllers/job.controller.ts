@@ -2,22 +2,22 @@ import type { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import z from "zod";
 import crypto from "crypto";
+import { getRabbitMQ } from "../services/rabbitmq";
 
 const prisma = new PrismaClient();
 
 const createJobSchema = z.object({
-    title: z.string().min(3),
+    role: z.string().min(3),
     description: z.string().min(10),
-    aiSettings: z.object({
-        strictness: z.enum(['low', 'medium', 'high']),
-        topics: z.array(z.string()),
-        questionCount: z.number().min(1).max(10)
+    exp_range: z.object({
+        min_exp : z.number(),
+        max_exp: z.number()
     })
 });
 
 export const createJob = async (req: Request, res: Response) => {
     try {
-        const { title, description, aiSettings } = createJobSchema.parse(req.body);
+        const { role, description, exp_range } = createJobSchema.parse(req.body);
 
         const orgId = req.user?.orgId;
         if (!orgId) {
@@ -26,13 +26,18 @@ export const createJob = async (req: Request, res: Response) => {
         }
         const job = await prisma.job.create({
             data: {
-                title,
+                role,
                 description,
-                ai_settings: aiSettings,
+                exp_range,
                 organizationId: orgId,
                 status: "OPEN",
             }
         })
+        const rabbitmq = getRabbitMQ()
+        const payload = {
+            job_id : job.id
+        }
+        rabbitmq.send('interview.exchange', 'job.question.create', payload)
         return res.status(201).json({ 'message': 'Job created successfully', job });
 
     } catch (error) {

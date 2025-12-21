@@ -1,0 +1,89 @@
+generator client {
+  provider             = "prisma-client-py"
+  interface            = "asyncio"
+  recursive_type_depth = 5
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// --- ENUMS ---
+enum Role {
+  ORG_ADMIN
+  RECRUITER
+}
+
+enum JobStatus {
+  DRAFT
+  OPEN
+  CLOSED
+}
+
+// --- EXISTING MODELS (Updated) ---
+
+model Organization {
+  id        String   @id @default(uuid())
+  name      String
+  domain    String? 
+  createdAt DateTime @default(now())
+  
+  users     User[]   // Relation to Users
+  jobs      Job[]    // <--- NEW: Relation to Jobs
+}
+
+model User {
+  id             String   @id @default(uuid())
+  email          String   @unique
+  password_hash  String
+  role           Role     @default(RECRUITER)
+  createdAt      DateTime @default(now())
+  
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+
+  @@index([email])
+}
+
+// --- NEW MODELS (Specific to Job Service) ---
+
+model Job {
+  id             String       @id @default(uuid())
+  role          String
+  description    String
+  exp_range      Json
+  status         JobStatus    @default(DRAFT)
+
+  roadmap        Json?
+  
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  
+  applications   Application[]
+  
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
+
+model Application {
+  id              String   @id @default(uuid())
+  
+  // Candidate Info
+  candidateEmail  String
+  candidateName   String
+  
+  // The Magic Link Token
+  inviteToken     String   @unique 
+  
+  // Relations
+  jobId           String
+  job             Job      @relation(fields: [jobId], references: [id])
+  
+  flow            Json?
+  // Status Tracking
+  status          String   @default("INVITED") // INVITED, IN_PROGRESS, COMPLETED
+  score           Int?     // Nullable until interview is done
+  
+  createdAt       DateTime @default(now())
+}

@@ -1,0 +1,68 @@
+<body style="margin:0; padding:0; font-family: Arial, Helvetica, sans-serif; background-color:#f4f6f8;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f6f8; padding:20px;">
+    <tr>
+      <td align="center">
+        <table width="600" cellpadding="0" cellspacing="0" style="background-color:#ffffff; border-radius:8px; overflow:hidden;">
+          
+          <!-- Header -->
+          <tr>
+            <td style="background-color:#0f172a; padding:20px; text-align:center;">
+              <h1 style="color:#ffffff; margin:0; font-size:22px;">
+                Interview Invitation
+              </h1>
+            </td>
+          </tr>
+
+          <!-- Content -->
+          <tr>
+            <td style="padding:30px; color:#111827; font-size:14px; line-height:1.6;">
+              <p style="margin-top:0;">
+                Dear <strong>{{candidate_name}}</strong>,
+              </p>
+
+              <p>
+                Thank you for your interest in the <strong>{{position}}</strong> role.
+                We were impressed with your profile and would like to invite you to the next stage of our interview process.
+              </p>
+
+              <p>
+                <strong>Interview Details:</strong>
+              </p>
+
+              <ul style="padding-left:18px;">
+                <li><strong>Date:</strong> {{date}}</li>
+                <li><strong>Time:</strong> {{time}}</li>
+                <li><strong>Mode:</strong> {{mode}}</li>
+                <li><strong>Location / Link:</strong> {{location_or_link}}</li>
+              </ul>
+
+              <p>
+                Please confirm your availability by replying to this email.
+                If the scheduled time does not work for you, feel free to suggest an alternative.
+              </p>
+
+              <p>
+                We look forward to speaking with you.
+              </p>
+
+              <p style="margin-bottom:0;">
+                Best regards,<br />
+                <strong>{{company_name}}</strong><br />
+                {{sender_name}}<br />
+                {{sender_title}}
+              </p>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="background-color:#f9fafb; padding:15px; text-align:center; font-size:12px; color:#6b7280;">
+              This is an automated email. Please do not share confidential information.
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>

@@ -38,15 +38,22 @@ class Mailer {
         return html;
     }
 
-    async send(recieverAddress: string, typ : string, vars: Record<string, string>) {
-        const info = await this.transporter?.sendMail({
-            from: config.smtp.user,
-            to: recieverAddress,
-            subject: 'Interview Invitation',
-            html: Mailer.renderTemplate(typ, vars)
-        })
-
-        return info
+    async send(recieverAddress: string, typ: string, vars: Record<string, string>) {
+        let success = false
+        try {
+            await this.transporter?.sendMail({
+                from: config.smtp.user,
+                to: recieverAddress,
+                subject: 'Interview Invitation',
+                html: Mailer.renderTemplate(typ, vars)
+            })
+            success = true
+        } catch (error) {
+            console.log('Error Sending Email', error);
+            success = false
+        } finally {
+            return success;
+        }
     }
 }
 

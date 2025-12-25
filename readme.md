@@ -1,10 +1,10 @@
 if you are seeing this, I will document my thought process and system design soon
 
 Tasks for week 4 dec 2025:
-- Review Job Service implementations of rabbitmq
-- test the job creation and flow generation
-- create email service
-- To be complete by : 23/12/25
+- Review Job Service implementations of rabbitmq (complete)
+- test the job creation and flow generation (partial)
+- create email service (completed)
+- To be complete by : 23/12/25 (late)
 
 Tasks for week 3 dec 2025:
 - Complete week 2 tasks (still pending - review Job service implementations)

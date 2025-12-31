@@ -7,6 +7,7 @@ class Settings(BaseSettings):
     RABBITMQ_PASSWORD: str = "password"
     RABBITMQ_HOST: str = "localhost"
     RABBITMQ_PORT: int = 5672
+    OPENAI_API_KEY: str
 
     class Config:
         env_file = ".env"
